@@ -90,7 +90,7 @@ const Workspaces = ({ userId }) => {
               alt="wave"
               style={{ height: 40 }}
             />
-            <h1>Welcome back</h1>
+            <h1>Welcome back!</h1>
           </div>
           <div key={workspace.id} className="workspace-box">
             <div className="main-user">Workspaces for {user.email}</div>
