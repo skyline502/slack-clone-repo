@@ -4,8 +4,8 @@ import os
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
-        'http://slack-project-clone.herokuapp.com',
-        'https://slack-project-clone.herokuapp.com'
+        'https://slack-clone.herokuapp.com/',
+        'https://slack-clone.herokuapp.com/'
     ]
 else:
     origins = "*"
