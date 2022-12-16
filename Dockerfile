@@ -6,8 +6,7 @@ FROM python:3.9
 # FLASK_APP -> entry point to your flask app
 # FLASK_ENV -> Tell flask to use the production server
 # SQLALCHEMY_ECHO -> Just set it to true
-ENV REACT_APP_BASE_URL=https://slack-project-clone.herokuapp.com/
-
+ENV REACT_APP_BASE_URL=https://slack-clone.herokuapp.com/
 ENV FLASK_APP=app
 
 ENV FLASK_ENV=production
