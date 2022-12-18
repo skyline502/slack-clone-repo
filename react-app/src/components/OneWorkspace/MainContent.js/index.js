@@ -59,15 +59,10 @@ const MainContent = () => {
       setMessages((messages) => [...messages, data]);
     });
 
-    socket.on('disconnect', () => {
-      setMessages((messages) => [...messages, `${user.username} has disconnected...`]);
-      // delete users[socket.id];
-  })
-
-    // return () => {
-    //   socket.disconnect();
-    // };
-  }, [user.username]);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     leaveRoom(prevRoom);
