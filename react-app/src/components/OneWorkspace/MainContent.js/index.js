@@ -59,9 +59,14 @@ const MainContent = () => {
       setMessages((messages) => [...messages, data]);
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    socket.on('disconnect', () => {
+      socket.broadcast.emit('user-disconnected', user.username);
+      // delete users[socket.id];
+  })
+
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   useEffect(() => {
