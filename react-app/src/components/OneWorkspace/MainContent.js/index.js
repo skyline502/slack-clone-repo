@@ -67,7 +67,7 @@ const MainContent = () => {
     // return () => {
     //   socket.disconnect();
     // };
-  }, []);
+  }, [user.username]);
 
   useEffect(() => {
     leaveRoom(prevRoom);
