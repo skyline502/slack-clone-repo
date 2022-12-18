@@ -60,7 +60,7 @@ const MainContent = () => {
     });
 
     socket.on('disconnect', () => {
-      socket.broadcast.emit('user-disconnected', user.username);
+      setMessages((messages) => [...messages, `${user.username} has disconnected...`]);
       // delete users[socket.id];
   })
 
