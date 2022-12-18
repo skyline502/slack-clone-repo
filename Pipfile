@@ -29,11 +29,11 @@ eventlet = "==0.30.2"
 psycopg2-binary = "*"
 boto3 = "*"
 aws = "*"
-Flask-SocketIO = "==4.4.1"
+Flask-SocketIO = "==5.1.1"
 bidict = "==0.22.0"
 dnspython = "==1.16.0"
 python-engineio = "==4.3.1"
-python-socketio = "==4.4.1"
+python-socketio = "==5.5.2"
 
 [dev-packages]
 psycopg2-binary = "==2.8.6"
