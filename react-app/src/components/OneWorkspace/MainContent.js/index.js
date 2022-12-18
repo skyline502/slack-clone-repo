@@ -72,7 +72,7 @@ const MainContent = () => {
 
   useEffect(() => {
     messagesEnd.current?.scrollIntoView();
-  }, [messages])
+  }, [messages]);
 
   const leaveRoom = (oldRoom) => {
     socket.emit("leave_room", { room: oldRoom });
@@ -80,6 +80,41 @@ const MainContent = () => {
 
   const joinRoom = (newRoom) => {
     socket.emit("join_room", { room: newRoom });
+  };
+
+  const onKeyDownSend = async (e) => {
+    if (e.keyCode === 13) {
+      if (dmRoomId) {
+        await dispatch(
+          postDirectMessage({
+            room_id: dmRoomId,
+            channel_id: null,
+            sender_id: user.id,
+            content: chatInput,
+            room: socketRoom,
+            sender_username: user.username,
+            sender_profile_picture: user.profile_picture,
+          })
+        ).then((message) => socket.send(message));
+      }
+      if (channelId) {
+        await dispatch(
+          postChannelMessage({
+            channel_id: view.id,
+            room_id: null,
+            sender_id: user.id,
+            content: chatInput,
+            room: socketRoom,
+            sender_username: user.username,
+            sender_profile_picture: user.profile_picture,
+          })
+        ).then((message) => socket.send(message));
+      }
+      setChatInput("");
+      let audio = new Audio("/static/knock_brush.mp3");
+      audio.play();
+      dispatch(getCurrentChannel(channelId));
+    }
   };
 
   const sendChat = async (e) => {
@@ -113,7 +148,7 @@ const MainContent = () => {
     setChatInput("");
     let audio = new Audio("/static/knock_brush.mp3");
     audio.play();
-    dispatch(getCurrentChannel(channelId))
+    dispatch(getCurrentChannel(channelId));
   };
 
   const updateChatInput = (e, editor) => {
@@ -161,7 +196,7 @@ const MainContent = () => {
       delete: true,
     });
     await dispatch(deleteMessage(message));
-    await dispatch(getCurrentChannel(channelId))
+    await dispatch(getCurrentChannel(channelId));
   };
 
   const handleCancel = (e) => {
@@ -176,7 +211,12 @@ const MainContent = () => {
       <div id="main-content">
         <div>
           <div style={{ marginLeft: 20 }}>
-            {channelId && <ChannelModalMain channel={view} setMessages={setMessages}></ChannelModalMain>}
+            {channelId && (
+              <ChannelModalMain
+                channel={view}
+                setMessages={setMessages}
+              ></ChannelModalMain>
+            )}
           </div>
           <div id="main-header">
             <div></div>
@@ -199,7 +239,11 @@ const MainContent = () => {
           <div>
             {dmRoomId && (
               <div>
-                <div className="dm-room-members">{view.members?.map((member) => (<div style={{ marginLeft: 5 }}>{member.username},</div>))}</div>
+                <div className="dm-room-members">
+                  {view.members?.map((member) => (
+                    <div style={{ marginLeft: 5 }}>{member.username},</div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -210,8 +254,9 @@ const MainContent = () => {
             edit === message.id ? (
               <div key={message.id} className="edit-message">
                 <img src={message.sender_profile_picture} alt=""></img>
-                <div className="editor"
-                     onMouseLeave={() => setShowButtons(null)}
+                <div
+                  className="editor"
+                  onMouseLeave={() => setShowButtons(null)}
                 >
                   <CKEditor
                     editor={ClassicEditor}
@@ -258,20 +303,22 @@ const MainContent = () => {
                       {message.created_at} PM
                     </p>
                   </div>
-                  <div className="sender-msg" onClick={() => setShowButtons(idx)}>
+                  <div
+                    className="sender-msg"
+                    onClick={() => setShowButtons(idx)}
+                  >
                     {ReactHtmlParser(message.content)}
                   </div>
                 </div>
                 {user.id === message.sender_id && showButtons === idx && (
-                  <span
-                  className="edit-delete"
-                  >
+                  <span className="edit-delete">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         setEditContent(message.content);
                         setEdit(message.id);
-                      }}>
+                      }}
+                    >
                       <i className="far fa-edit"></i>
                     </button>
                     <button onClick={(e) => handleDeleteMessage(e, message)}>
@@ -285,7 +332,7 @@ const MainContent = () => {
           <div ref={messagesEnd}></div>
         </div>
         <div className="chat-box">
-          <form onSubmit={sendChat}>
+          <form onSubmit={sendChat} onKeyDown={onKeyDownSend}>
             <CKEditor
               editor={ClassicEditor}
               onChange={updateChatInput}
