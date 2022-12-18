@@ -70,13 +70,13 @@ def workspace_create():
         db.session.add(channel_member)
         db.session.commit()
 
-        message= Message(
-            channel_id=channel.id,
-            sender_id=1,
-            content=f'Welcome to {workspace.name}!!!'
-        )
-        db.session.add(message)
-        db.session.commit()
+        # message= Message(
+        #     channel_id=channel.id,
+        #     sender_id=1,
+        #     content=f'Welcome to {workspace.name}!!!'
+        # )
+        # db.session.add(message)
+        # db.session.commit()
 
         return workspace.to_dict()
 
@@ -183,4 +183,3 @@ def search(workspace_id, parameters, keyword):
         result = result + [message.to_dict() for message in messages if message.channel_id in channel_ids or message.room_id in room_ids]
 
     return { 'result': result }
-
