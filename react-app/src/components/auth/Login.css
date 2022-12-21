@@ -60,15 +60,22 @@
 }
 
 .demo-btn {
-    background-color: white;
-    border: none;
-    color: rgb(65, 199, 253);
-    font-size: 15px;
+    background-color: black;
+    color: white;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: 0;
+    width: 405px;
+    font-size: 20px;
 }
 
 .demo-btn:hover {
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
 }
 
 .contact {
